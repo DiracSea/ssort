@@ -1,8 +1,10 @@
 #include <math.h> 
 #include <stdint.h> 
 #include <stdio.h> 
+
 #include <algorithm>
 #include <assert.h>
+
 #include "ssort.h"
 #include "support.h"
 
@@ -119,6 +121,7 @@ int main(int argc, char* argv[])
     sample_interval = num_element/num_sample;
 
 
+    malloc((void**)&tmp_data, num_element * sizeof(unsigned int));
 
     initVector(&tmp_data, num_element);
     // bins_h = (unsigned int*) malloc(num_bins*sizeof(unsigned int));
@@ -136,8 +139,8 @@ int main(int argc, char* argv[])
     if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
     cuda_ret = cudaMalloc((void**)&sample_data, num_sample * sizeof(unsigned int));
     if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
-    cuda_ret = cudaMalloc((void**)&tmp_sample, num_sample * sizeof(unsigned int));
-    if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
+    // cuda_ret = cudaMalloc((void**)&tmp_sample, num_sample * sizeof(unsigned int));
+    // if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
     cuda_ret = cudaMalloc((void**)&bin_count, num_element * sizeof(unsigned int));
     if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
     cuda_ret = cudaMalloc((void**)&dest_bin_idx, num_element * sizeof(unsigned int));
@@ -152,8 +155,10 @@ int main(int argc, char* argv[])
     if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
     cuda_ret = cudaMalloc((void**)&dest_bin_idx_tmp, num_element * sizeof(unsigned int));
     if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
-    cuda_ret = cudaMalloc((void**)&sort_tmp, num_element * sizeof(unsigned int));
-    if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
+    // cuda_ret = cudaMalloc((void**)&sort_tmp, num_element * sizeof(unsigned int));
+    // if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
+    malloc((void**)&sort_tmp, num_element * sizeof(unsigned int));
+    malloc((void**)&tmp_sample, num_sample * sizeof(unsigned int));
 
     cudaDeviceSynchronize();
     stopTime(&timer); printf("%f s\n", elapsedTime(timer));
@@ -284,13 +289,13 @@ int main(int argc, char* argv[])
     cuda_ret = cudaMemcpy(sort_tmp, data, num_element * sizeof(unsigned int),
         cudaMemcpyDeviceToHost);
 	if(cuda_ret != cudaSuccess) FATAL("Unable to copy memory to host");
-
     cudaDeviceSynchronize();
+
     stopTime(&timer); printf("%f s\n", elapsedTime(timer));
 
     // Verify correctness -----------------------------------------------------
 
-    printf("Verifying results..."); fflush(stdout);
+    printf("Verifying results...");fflush(stdout);
     // std::qsort(tmp_data, num_element, sizeof(unsigned int), cmp); 
     verify(tmp_data, sort_tmp, num_element);
 

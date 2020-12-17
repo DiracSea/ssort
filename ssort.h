@@ -34,45 +34,11 @@ __host__ void select_samples_gpu(
 // II. sorting the samples
 
 
-// __device__ void radix_sort2(
-//     unsigned int *const sort_tmp, 
-//     const unsigned int num_element, 
-//     const unsigned int tid, 
-//     unsigned int *const sort_tmp_1)
-// {
-//     // sort into num_list
-//     for(unsigned int bit = 0; bit < 32; bit++)
-//     {
-//         const unsigned int bit_mask = (1<<bit); 
-//         unsigned int base_cnt_0 = 0;
-//         unsigned int base_cnt_1 = 0;
-
-//         for (unsigned int i = 0; i < num_element; i++)
-//         {
-//             const unsigned int elem = sort_tmp[i+tid];
-
-//             if ((elem&bit_mask) > 0)
-//             {
-//                 sort_tmp_1[base_cnt_1+bit] = elem;
-//                 base_cnt_1++;
-//             }
-//             else 
-//             {
-//                 sort_tmp[base_cnt_0+bit] = elem;
-//                 base_cnt_0++;  
-//             }
-//         }
-//         // copy data back to src from one's list
-//         for(unsigned int i = 0; i < base_cnt_1; i++) 
-//             sort_tmp[base_cnt_0+i+tid] = sort_tmp_1[i+tid];
-//     }
-//     __syncthreads();
-// }
-
-
-int cmp(const void* a , const void* b)
+int cmp(const unsigned int* a , const unsigned int* b)
 {
-    return (*(int *)a - *(int *)b);
+    if (a > b) return 1;
+    else if (a < b) return -1;
+    else return 0;
 }
 
 

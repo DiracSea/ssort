@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
     unsigned int sample_interval, num_element, num_sample, num_threads_per_block, num_thread, num_block;// num_block = block_size
     unsigned int* sample_data; unsigned int* tmp_sample;
     unsigned int* src_data; unsigned int* tmp_data;
-    unsigned int* bin_count;
+    unsigned int* bin_count; unsigned int* fina1_answer;
     unsigned int* dest_bin_idx;//dest_bin_idx_tmp;
     unsigned int* dest_bin_idx_tmp; 
 
@@ -159,6 +159,7 @@ int main(int argc, char* argv[])
     // if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
     sort_tmp=(unsigned int*)malloc(num_element * sizeof(unsigned int));
     tmp_sample=(unsigned int*)malloc(num_sample * sizeof(unsigned int));
+    fina1_answer=(unsigned int*)malloc(num_element * sizeof(unsigned int));
 
     cudaDeviceSynchronize();
     stopTime(&timer); printf("%f s\n", elapsedTime(timer));
@@ -227,7 +228,8 @@ int main(int argc, char* argv[])
 
     stopTime(&timer); printf("%f s\n", elapsedTime(timer));
     std::qsort(tmp_data, num_element, sizeof(unsigned int), cmp);
-    
+    memcpy(fina1_answer,tmp_data,num_element * sizeof(unsigned int))
+
     cuda_ret = cudaMemcpy(sample_data, tmp_sample, num_sample * sizeof(unsigned int),
         cudaMemcpyHostToDevice);
     if(cuda_ret != cudaSuccess) FATAL("Unable to copy sample_tmp to the device");
@@ -306,7 +308,7 @@ int main(int argc, char* argv[])
     cudaFree(bin_count); cudaFree(dest_bin_idx);
     cudaFree(dest_bin_idx_tmp); cudaFree(block_sum);
     cudaFree(block_sum_prefix); cudaFree(dest_data);
-    cudaFree(data);
+    cudaFree(data);free(fina1_answer);
     free(tmp_data); free(sort_tmp); free(tmp_sample); 
 
     return 0;

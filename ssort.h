@@ -70,9 +70,9 @@ __host__ void select_samples_gpu(
 // }
 
 
-bool cmp(const unsigned int* a , const unsigned int* b)
+int cmp(const void* a , const void* b)
 {
-    return *a > *b;
+    return (*(int *)a - *(int *)b);
 }
 
 

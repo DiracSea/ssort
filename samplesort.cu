@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
     sample_interval = num_element/num_sample;
 
 
-    malloc((void*)tmp_data, num_element * sizeof(unsigned int));
+    malloc(tmp_data, num_element * sizeof(unsigned int));
 
     initVector(&tmp_data, num_element);
     // bins_h = (unsigned int*) malloc(num_bins*sizeof(unsigned int));
@@ -157,8 +157,8 @@ int main(int argc, char* argv[])
     if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
     // cuda_ret = cudaMalloc((void**)&sort_tmp, num_element * sizeof(unsigned int));
     // if(cuda_ret != cudaSuccess) FATAL("Unable to allocate device memory");
-    malloc((void*)sort_tmp, num_element * sizeof(unsigned int));
-    malloc((void*)tmp_sample, num_sample * sizeof(unsigned int));
+    malloc(sort_tmp, num_element * sizeof(unsigned int));
+    malloc(tmp_sample, num_sample * sizeof(unsigned int));
 
     cudaDeviceSynchronize();
     stopTime(&timer); printf("%f s\n", elapsedTime(timer));

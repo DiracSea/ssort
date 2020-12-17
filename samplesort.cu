@@ -255,6 +255,8 @@ int main(int argc, char* argv[])
 
     printf("Launching sorting into bins..."); fflush(stdout);
     startTime(&timer);
+    
+    stopTime(&timer);
     sort_to_bin_gpu_kernel<<<num_block, num_thread>>>(num_sample,src_data,sample_data,dest_bin_idx_tmp,dest_data);
     cuda_ret = cudaDeviceSynchronize();
     if(cuda_ret != cudaSuccess) FATAL("Unable to launch/execute kernel");
@@ -289,7 +291,7 @@ int main(int argc, char* argv[])
     // Verify correctness -----------------------------------------------------
 
     printf("Verifying results..."); fflush(stdout);
-    std::sort(sample_data, sample_data+num_sample); 
+    std::qsort(tmp_data, num_element, sizeof(unsigned int), cmp); 
     verify(tmp_data, sort_tmp, num_element);
 
     // Free memory ------------------------------------------------------------

@@ -55,8 +55,8 @@ void verify(unsigned int* correct, unsigned int* result, unsigned int num_elemen
   // }
 
   // Compare to reference bins
-  for(unsigned int binIdx = 0; binIdx < num_elements; ++binIdx) {
-      // printf("%u: %u/%u, ", binIdx, correct[binIdx], result[binIdx]);
+  for(unsigned int binIdx = 0; binIdx < num_elements; binIdx++) {
+      printf("%u: %u/%u, ", binIdx, correct[binIdx], result[binIdx]);
       if(correct[binIdx] != result[binIdx]) {
         printf("TEST FAILED at bin %u, cpu = %u, gpu = %u\n\n", binIdx, correct[binIdx], result[binIdx]);
         exit(0);

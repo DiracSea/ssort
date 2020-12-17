@@ -71,9 +71,9 @@ __host__ void select_samples_gpu(
 
 struct cmp 
 {
-    bool operator()(unsigned int a , unsigned int b)
+    bool operator()(const void* a , const void* b)
     {
-        return a > b;
+        return *(const unsigned int*)a > *(const unsigned int*)b;
     }
 } cmpgt;
 

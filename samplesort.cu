@@ -228,7 +228,7 @@ int main(int argc, char* argv[])
 
     stopTime(&timer); printf("%f s\n", elapsedTime(timer));
     std::qsort(tmp_data, num_element, sizeof(unsigned int), cmp);
-    memcpy(fina1_answer,tmp_data,num_element * sizeof(unsigned int))
+    memcpy(fina1_answer,tmp_data,num_element * sizeof(unsigned int));
 
     cuda_ret = cudaMemcpy(sample_data, tmp_sample, num_sample * sizeof(unsigned int),
         cudaMemcpyHostToDevice);
@@ -293,14 +293,16 @@ int main(int argc, char* argv[])
         cudaMemcpyDeviceToHost);
 	if(cuda_ret != cudaSuccess) FATAL("Unable to copy memory to host");
     cudaDeviceSynchronize();
-
+    // Verify correctness -----------------------------------------------------
+    // for verfication value
+    std::qsort(sort_tmp, num_element, sizeof(unsigned int), cmp);  
     stopTime(&timer); printf("%f s\n", elapsedTime(timer));
 
-    // Verify correctness -----------------------------------------------------
+    
 
     printf("Verifying results...");fflush(stdout);
-    std::qsort(sort_tmp, num_element, sizeof(unsigned int), cmp);  
-    verify(tmp_data, sort_tmp, num_element);
+    
+    verify(tmp_data, fina1_answer, num_element);
 
     // Free memory ------------------------------------------------------------
 

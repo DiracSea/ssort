@@ -226,7 +226,8 @@ int main(int argc, char* argv[])
     if(cuda_ret != cudaSuccess) FATAL("Unable to launch/execute kernel");
 
     stopTime(&timer); printf("%f s\n", elapsedTime(timer));
-
+    std::qsort(tmp_data, num_element, sizeof(unsigned int), cmp);
+    
     cuda_ret = cudaMemcpy(sample_data, tmp_sample, num_sample * sizeof(unsigned int),
         cudaMemcpyHostToDevice);
     if(cuda_ret != cudaSuccess) FATAL("Unable to copy sample_tmp to the device");
@@ -296,7 +297,7 @@ int main(int argc, char* argv[])
     // Verify correctness -----------------------------------------------------
 
     printf("Verifying results...");fflush(stdout);
-    std::qsort(tmp_data, num_element, sizeof(unsigned int), cmp); 
+    std::qsort(sort_tmp, num_element, sizeof(unsigned int), cmp);  
     verify(tmp_data, sort_tmp, num_element);
 
     // Free memory ------------------------------------------------------------

@@ -44,7 +44,7 @@ __global__ void scan_kernel_single(
 {
     unsigned int prefix_sum = 0; 
 
-    for (unsigned int i = 0; i < num_samples; i++)
+    for (unsigned int i = 0; i < num_sample; i++)
     {
         dest_bin_idx[i] = prefix_sum; 
         prefix_sum += bin_count[i];

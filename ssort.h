@@ -34,10 +34,12 @@ __host__ void select_samples_gpu(
 // II. sorting the samples
 
 
-int cmp(const unsigned int* a , const unsigned int* b)
+int cmp(const void* a , const void* b)
 {
-    if (a > b) return 1;
-    else if (a < b) return -1;
+    unsigned int x = *(unsigned int*) a;
+    unsigned int y = *(unsigned int*) b;
+    if (x > y) return 1;
+    else if (x < y) return -1;
     else return 0;
 }
 

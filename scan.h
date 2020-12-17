@@ -29,7 +29,7 @@ __global__ void scan_kernel(
 }
 
 __global__ void add_scan_total_kernel(
-    unsigned int *const prefix_id, 
+    unsigned int *const prefix_idx, 
     const unsigned int *const total_count)
 {
     const unsigned int tid = (blockIdx.x * blockDim.x) + threadIdx.x;
@@ -39,7 +39,7 @@ __global__ void add_scan_total_kernel(
 
 __global__ void scan_kernel_single(
     const unsigned int num_sample, 
-    const unsigned int *const bin_count. 
+    const unsigned int *const bin_count,
     unsigned int *const dest_bin_idx)
 {
     unsigned int prefix_sum = 0; 

@@ -19,8 +19,8 @@ typedef struct {
 #ifdef __cplusplus
 extern "C" {
 #endif
-void initVector(unsigned int **vec_h, unsigned int size, unsigned int num_bins);
-void verify(unsigned int* input, unsigned int* bins, unsigned int num_elements, unsigned int num_bins);
+void initVector(unsigned int **vec_h, unsigned int size);
+void verify(unsigned int* input, unsigned int* bins, unsigned int num_elements);
 void startTime(Timer* timer);
 void stopTime(Timer* timer);
 float elapsedTime(Timer timer);

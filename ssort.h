@@ -78,7 +78,7 @@ __host__ void sort_sample_cpu(
     unsigned int *const sample_data, 
     const unsigned int num_sample)
 {
-    std::qsort(sample_data, num_sample, sizeof(unsigned int), cmp)
+    std::qsort(sample_data, num_sample, sizeof(unsigned int), cmp); 
 }
 
 // III. counting the sample bins
@@ -112,7 +112,7 @@ __host__ __device__ unsigned int bin_search(
 }
 
 // single data point, atomic add
-__global__ void count_bins_gpu_kernel(
+__global__ void count_bin_gpu_kernel(
     const unsigned int num_sample,
     const unsigned int *const src_data,
     const unsigned int *const sample_data,
@@ -176,7 +176,7 @@ __host__ void calc_bin_idx_gpu(
         // calc prefix for the block sums
         // single thread
 
-        scan_kernel_single<<<1,1>>>(num_elements, bin_count, dest_bin_idx);
+        scan_kernel_single<<<1,1>>>(num_element, bin_count, dest_bin_idx);
     }
 }
 
@@ -272,6 +272,6 @@ __host__ void sort_bin_gpu(
 {
     const unsigned int num_block = num_sample/num_thread;
 
-    sort_bin_gpu_kernel<<<num_block, num_thread>>>(num_sample, num_element, data
+    sort_bin_gpu_kernel<<<num_block, num_thread>>>(num_sample, num_element, data,
     sample_data, bin_count, dest_bin_idx, sort_tmp);
 }

@@ -244,7 +244,7 @@ __device__ void radix_sort(
 
 __global__ void sort_bin_gpu_kernel(
     const unsigned int num_sample,
-    const unsigned int num_element,
+    const unsigned int num_element, 
     unsigned int *const data, 
     const unsigned int *const sample_data,
     const unsigned int *const bin_count,

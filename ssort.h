@@ -49,7 +49,7 @@ __host__ void sort_sample_cpu(
     const unsigned int num_sample)
 {
     
-    // std::qsort(sample_data, num_sample, sizeof(unsigned int), cmp); 
+    std::qsort(sample_data, num_sample, sizeof(unsigned int), cmp); 
 }
 
 // III. counting the sample bins

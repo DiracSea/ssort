@@ -296,7 +296,7 @@ int main(int argc, char* argv[])
     // Verify correctness -----------------------------------------------------
 
     printf("Verifying results...");fflush(stdout);
-    // std::qsort(tmp_data, num_element, sizeof(unsigned int), cmp); 
+    std::qsort(tmp_data, num_element, sizeof(unsigned int), cmp); 
     verify(tmp_data, sort_tmp, num_element);
 
     // Free memory ------------------------------------------------------------

@@ -69,18 +69,19 @@ __host__ void select_samples_gpu(
 //     __syncthreads();
 // }
 
-
-bool cmp(const void* a , const void* b)
+struct cmp 
 {
-    return *(const unsigned int*)a > *(const unsigned int*)b;
-}
-
+    bool operator()(const unsigned int* a , const unsigned int* b)
+    {
+        return *a > *b;
+    }
+} cmpgt;
 
 __host__ void sort_sample_cpu(
     unsigned int *const sample_data, 
     const unsigned int num_sample)
 {
-    std::qsort(sample_data, num_sample, sizeof(unsigned int), cmp); 
+    std::qsort(sample_data, num_sample, sizeof(unsigned int), cmpgt); 
 }
 
 // III. counting the sample bins
